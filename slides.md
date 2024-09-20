@@ -63,12 +63,13 @@ transition: fade-out
 
 # Introduction LLGo
 
-> Rust is a language empowering everyone to build reliable and efficient software, it can power performance-critical services, run on embedded devices, and easily integrate with other languages.
+> LLGo is a Go compiler based on LLVM in order to better integrate Go with the C ecosystem including Python.<br>
+LLGo aims to expand the boundaries of Go/Go+, providing limitless possibilities such as:
 
-- 🌪 **Performance** - Rust is blazingly fast and memory-efficient: with no runtime or garbage collector
-- 🏭 **Reliability** - Rust’s rich type system and ownership model guarantee memory-safety and thread-safety
-- 🔧 **Productivity** - Rust has great documentation, a friendly compiler with useful error messages, and top-notch tooling
-- 🧑‍💻 **FFI Friendly** - Rust also use LLVM as backend, so it can easily integrate with other languages
+- 🕹️Game development
+- 🤖AI and data science
+- 💻WebAssembly
+- 🦾Embedded development
 <br>
 <br>
 
@@ -166,23 +167,27 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
 
 
 ---
-layout: two-cols
+layout: 
 layoutClass: gap-16
 ---
 
 # Technical Pain Points
+<br>
+<br>
 
-You can use the `Toc` component to generate a table of contents for your slides:
+- **Performance and Safety:**
+Rust delivers near-C performance with memory safety, ideal for high-performance network libraries.
 
-```html
-<Toc minDepth="1" maxDepth="1"></Toc>
-```
+- **Concurrency Safety:**
+Catches memory errors and data races at compile-time, reducing runtime errors and vulnerabilities.
 
-The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
+- **Asynchronous Programming:**
+Strong async support facilitates efficient non-blocking I/O while maintaining code clarity.
 
-::right::
+- **Compatibility:**
+Excellent FFI support enables easy C library integration and seamless incorporation into LLGo.
 
-<Toc v-click minDepth="1" maxDepth="2"></Toc>
+
 
 ---
 layout: image-right
@@ -244,71 +249,74 @@ level: 2
 
 # Roadmap #1
 
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
+Rust to LLGo
 
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
+Here are a few key points:
 
 ````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-})
+```toml {*|7|*}
+// 1: Configure Cargo.toml
+// Add necessary dependencies and configure to generate a C-compatible dynamic library.
+[dependencies]
+libc = "0.2"
+
+[lib]
+crate-type = ["cdylib"]
 ```
 
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
-    }
-  }
+```toml {*|3-4|*}
+// 2: Configure Cargo.toml
+// Wrap Rust functions with special attributes and unsafe blocks to make them callable from C.
+#[no_mangle]
+pub unsafe extern "C" fn add_numbers_c(a: i32, b: i32) -> i32 {
+    add_numbers(a, b)
 }
 ```
 
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: 'John Doe',
-      books: [
-        'Vue 2 - Advanced Guide',
-        'Vue 3 - Basic Guide',
-        'Vue 4 - The Mystery'
-      ]
-    }
-  })
+```rust {*|4|9|*}
+// 3: Memory Management
+// Use Box to manage dynamic memory, ensuring correct memory release between Rust and C.
+#[no_mangle]
+pub unsafe extern "C" fn sled_create_config() -> *mut Config {
+    Box::into_raw(Box::new(Config::new()))
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn sled_free_config(config: *mut Config) {
+    drop(Box::from_raw(config));
 }
 ```
 
 Non-code blocks are ignored.
 
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
+```rust {*|4|5-6|*}
+// 4: String Handling
+// Convert strings between C and Rust.
+#[no_mangle]
+pub extern "C" fn csv_reader_read_record(ptr: *mut c_void) -> *const c_char {
+    // ... 
+    match CString::new(format!("{:?}\n", record)) {
+        Ok(c_string) => c_string.into_raw(),
+        Err(_) => ptr::null(),
+    }
+    // ...
 }
-</script>
+```
+
+```rust {*|3-4|5-6|*}
+// 5: Map Rust functions in Go, ensuring type consistency.
+// Convert strings between C and Rust.
+//go:linkname NewReader C.csv_reader_new
+func NewReader(file_path *c.Char) *Reader
+
+// llgo:link (*Reader).Free C.csv_reader_free
+func (reader *Reader) Free() {}
+```
+
+```rust {*|3|*}
+// 6: Install Dynamic Library.
+// Use the dylib-installer tool to install the generated dynamic library and header files.
+sudo dylib_installer <dylib_lib> <header_file_lib>
 ```
 ````
 ---
