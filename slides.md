@@ -7,7 +7,7 @@ background: https://unsplash.com/photos/mYBMP8pW4uQ/download?ixid=M3wxMjA3fDB8MX
 # some information about your slides (markdown enabled)
 title: LLGo Rust Ecosystem Explore
 info: |
-  ## LLGo Rust Ecosystem Explore 
+  ## LLGo Rust Ecosystem Explore
 # apply unocss classes to the current slide
 class: text-center
 # https://sli.dev/features/drawing
@@ -167,25 +167,76 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
 
 
 ---
-layout: 
-layoutClass: gap-16
+layout: center
+class: text-center
 ---
 
+<style>
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 800px;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .advantages {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .advantage {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 15px;
+    }
+    .advantage h2 {
+        color: #e57373;
+        margin-top: 0;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+    }
+    .advantage p {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+    .icon {
+        font-size: 24px;
+        margin-right: 10px;
+    }
+</style>
+
 # Technical Pain Points
+
 <br>
-<br>
 
-- **Performance and Safety:**
-Rust delivers near-C performance with memory safety, ideal for high-performance network libraries.
-
-- **Concurrency Safety:**
-Catches memory errors and data races at compile-time, reducing runtime errors and vulnerabilities.
-
-- **Asynchronous Programming:**
-Strong async support facilitates efficient non-blocking I/O while maintaining code clarity.
-
-- **Compatibility:**
-Excellent FFI support enables easy C library integration and seamless incorporation into LLGo.
+<div class="container">
+    <div class="advantages">
+        <div class="advantage">
+            <h2><span class="icon">🚀</span>Performance and Safety</h2>
+            <p>Near-C performance with memory safety, ideal for high-performance network libraries.</p>
+        </div>
+        <div class="advantage">
+            <h2><span class="icon">🛡️</span>Concurrency Safety</h2>
+            <p>Catches memory errors and data races at compile-time, reducing runtime errors and vulnerabilities.</p>
+        </div>
+        <div class="advantage">
+            <h2><span class="icon">⚡</span>Asynchronous Programming</h2>
+            <p>Strong async support facilitates efficient non-blocking I/O while maintaining code clarity.</p>
+        </div>
+        <div class="advantage">
+            <h2><span class="icon">🔗</span>Compatibility</h2>
+            <p>Excellent FFI support enables easy C library integration and seamless incorporation into LLGo.</p>
+        </div>
+    </div>
+</div>
 
 
 
@@ -717,23 +768,8 @@ const final = {
 
 # Problems
 
-LaTeX is supported out-of-box. Powered by [KaTeX](https://katex.org/).
+- The client functionality still has some issues. When the concurrency level is too high, there's a probability of causing program blockage.
 
-<div h-3 />
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
-$$ {1|3|all}
-\begin{aligned}
-\nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} \\
-\nabla \cdot \vec{B} &= 0 \\
-\nabla \times \vec{E} &= -\frac{\partial\vec{B}}{\partial t} \\
-\nabla \times \vec{B} &= \mu_0\vec{J} + \mu_0\varepsilon_0\frac{\partial\vec{E}}{\partial t}
-\end{aligned}
-$$
-
-[Learn more](https://sli.dev/features/latex)
 
 ---
 
@@ -815,76 +851,130 @@ Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML D
 
 ---
 foo: bar
-dragPos:
-  square: 0,-17,0,0
+layout: center
+class: text-center
 ---
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    h1 {
+        color: #333;
+        margin-bottom: 30px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin: 15px 0;
+        font-size: 18px;
+        color: #555;
+    }
+    .footer {
+        margin-top: 30px;
+        font-style: italic;
+        color: #777;
+    }
+</style>
 
 # Thanks
 
-Double-click on the draggable elements to edit their positions.
+<div class="container">
+    <ul>
+        <li>@老许</li>
+        <li>@各位导师</li>
+        <li>@军哥</li>
+        <li>@张之阳</li>
+        <li>@HR</li>
+    </ul>
+    <p class="footer">Your support and guidance made this project possible.</p>
+</div>
 
-<br>
-
-###### Directive Usage
-
-```md
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-```
-
-<br>
-
-###### Component Usage
-
-```md
-<v-drag text-3xl>
-  <carbon:arrow-up />
-  Use the `v-drag` component to have a draggable container!
-</v-drag>
-```
-
-<v-drag pos="122,345,261,_,-15"undefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefined>
-  <div text-center text-3xl border border-main rounded>
-    Double-click me!
-  </div>
-</v-drag>
-
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-
-###### Draggable Arrow
-
-```md
-<v-drag-arrow two-way />
-```
-
-<v-drag-arrow pos="67,452,60,-202" two-way op70 />
-
-
-
+--- 
+layout: center
+class: text-center
 ---
 
+<style>
+  .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 800px;
+      width: 100%;
+  }
+  .links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+  }
+  .link {
+      flex: 0 1 calc(33.333% - 20px);
+      min-width: 150px;
+      padding: 12px 24px;
+      background-color: #4facfe;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-size: 18px;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+  }
+  .link:hover {
+      background-color: #00f2fe;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  @media (max-width: 600px) {
+      .link {
+          flex: 0 1 calc(50% - 20px);
+      }
+  }
+  @media (max-width: 400px) {
+      .link {
+          flex: 0 1 100%;
+      }
+  }
+</style>
+
 # Links
+<br>
 
-Slidev provides built-in Monaco Editor support.
 
-Add `{monaco}` to the code block to turn it into an editor:
+<div class="container">
+    <div class="links">
+        <a href="https://github.com/goplus/llgo" class="link" target="_blank">LLGo GitHub</a>
+        <a href="https://github.com/goplus/gop" class="link" target="_blank">Go+ GitGub</a>
+        <a href="https://github.com/goplus/llgo/blob/main/doc/How-to-support-a-Rust-Library.md" class="link" target="_blank">Documentation</a>
+        <a href="https://github.com/goplus/llgoexamples/tree/main/rust/hyper" class="link" target="_blank">hyper.go</a>
+        <a href="https://github.com/goplus/llgoexamples/tree/main/rust/opendal" class="link" target="_blank">opendal.go</a>
+        <a href="https://github.com/goplus/llgoexamples/tree/main/rust/sled" class="link" target="_blank">sled.go</a>
+    </div>
+</div>
+<br>
+<br>
 
-```ts {monaco}
-import { ref } from 'vue'
-import { emptyArray } from './external'
-
-const arr = ref(emptyArray(10))
-```
-
-Use `{monaco-run}` to create an editor that can execute the code directly in the slide:
-
-```ts {monaco-run}
-import { version } from 'vue'
-import { emptyArray, sayHello } from './external'
-
-sayHello()
-console.log(`vue ${version}`)
-console.log(emptyArray<number>(10).reduce(fib => [...fib, fib.at(-1)! + fib.at(-2)!], [1, 1]))
-```
 
 ---
 layout: center
@@ -893,6 +983,41 @@ class: text-center
 
 # Thank You For Listening
 
-[Documentation](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/resources/showcases)
+<style>
+  .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+  }
+  .person {
+      margin-bottom: 30px; /* Increased margin for better separation */
+  }
+  .name {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px; /* Increased margin */
+      line-height: 1.3; /* Specific line height for names */
+  }
+  .email {
+      color: #666;
+      font-size: 18px;
+      line-height: 1.4; /* Specific line height for email */
+      display: inline-block; /* Added to ensure proper line height */
+  }
+  .email:hover {
+      color: #4a4a4a;
+  }
+</style>
 
-<PoweredBySlidev mt-10 />
+<div class="container">
+    <div class="person">
+        <div class="name">Yisheng Chai</div>
+        <a href="mailto:john.doe@example.com" class="email">john.doe@example.com</a>
+    </div>
+    <div class="person">
+        <div class="name">Yingjie Zhao</div>
+        <a href="mailto:spongehah@163.com" class="email">spongehah@163.com</a>
+    </div>
+</div>
