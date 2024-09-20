@@ -29,21 +29,12 @@ transition: fade-out
 
 # Who are we?
 
-> Rust is a language empowering everyone to build reliable and efficient software, it can power performance-critical services, run on embedded devices, and easily integrate with other languages.
-
-- 🌪 **Performance** - Rust is blazingly fast and memory-efficient: with no runtime or garbage collector
-- 🏭 **Reliability** - Rust’s rich type system and ownership model guarantee memory-safety and thread-safety
-- 🔧 **Productivity** - Rust has great documentation, a friendly compiler with useful error messages, and top-notch tooling
-- 🧑‍💻 **FFI Friendly** - Rust also use LLVM as backend, so it can easily integrate with other languages
+- Yisheng Chai: Golang&Rust Backend Developer, I've built [Zeabur](https://zeabur.com) which is a cloud native deployment platform, [Casbin-rs](https://github.com/casbin/casbin-rs) rust implementation of [Casbin](https://casbin.org) which is an efficient open-source access control library in Go. I write golang for work and rust for fun. You can get in touch with me on [hackerchai.com](https://hackerchai.com)
 <br>
 <br>
-
-Meet more highlights with LLGo + Rust?
-
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/features/slide-scope-style
--->
+- Yingjie Zhao: TO BE FILLED
+<br>
+<br>
 
 <style>
 h1 {
@@ -73,12 +64,7 @@ LLGo aims to expand the boundaries of Go/Go+, providing limitless possibilities 
 <br>
 <br>
 
-Meet more highlights with LLGo + Rust?
-
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/features/slide-scope-style
--->
+LLGo can do more than Golang!
 
 <style>
 h1 {
@@ -109,11 +95,6 @@ transition: fade-out
 
 Meet more highlights with LLGo + Rust?
 
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/features/slide-scope-style
--->
-
 <style>
 h1 {
   background-color: #2B90B6;
@@ -125,45 +106,32 @@ h1 {
   -moz-text-fill-color: transparent;
 }
 </style>
-
-<!--
-Here is another comment.
--->
-
 ---
-layout: two-cols
 layoutClass: gap-16
+transition: slide-up
 ---
 
 # Overview
 
-You can use the `Toc` component to generate a table of contents for your slides:
+<Toc v-click columns="2" minDepth="1" maxDepth="1"></Toc>
 
-```html
-<Toc minDepth="1" maxDepth="1"></Toc>
-```
-
-The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
-
-::right::
-
-<Toc v-click minDepth="1" maxDepth="2"></Toc>
 
 ---
 transition: slide-up
-level: 2
 ---
 
 # Targets
 
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
+At first, we have multiple thoughts on how to utilize Rust to enhance the LLGo ecosystem, including async runtime, async io,programming language infrastructure, etc. We need to make some trade-offs.
 
 ## TODO
 <br>
 
-- [ ] Task 1
-- [ ] Task 2
-- [ ] Task 3
+- [ ] Binding Rust FFI to LLGo
+- [ ] Port Rust Actor Mode [Actix](https://github.com/actix/actix)
+- [ ] Utilize some Rust Crates as LLGo's standard library
+- [ ] Port some famous and efficient Rust framework to LLGo
+- [ ] Implement LLGo's net/http using Rust web infrastructure
 
 
 ---
@@ -245,7 +213,7 @@ layout: image-right
 image: https://cover.sli.dev
 ---
 
-# Technical Selection
+# Technical Implementations
 
 Use code snippets and get the highlighting directly, and even types hover!
 
@@ -298,11 +266,11 @@ Notes can also sync with clicks
 level: 2
 ---
 
-# Roadmap #1
+# How to port Rust FFI to LLGo
 
-Rust to LLGo
+C compatible FFI interface in Rust
 
-Here are a few key points:
+Here are the key points:
 
 ````md magic-move {lines: true}
 ```toml {*|7|*}
@@ -520,8 +488,10 @@ const author = {
 
 
 ---
+level: 2
+---
 
-# Achievements
+# Achievements #1
 
 <div grid="~ cols-2 gap-4">
 <div>
@@ -562,8 +532,10 @@ Also, HTML elements are valid:
 -->
 
 ---
+level: 2
+---
 
-# Achievements
+# Achievements #2
 
 <div grid="~ cols-2 gap-4">
 <div>
@@ -604,8 +576,10 @@ Also, HTML elements are valid:
 -->
 
 ---
+level: 2
+---
 
-# Achievements
+# Achievements #3
 
 <div grid="~ cols-2 gap-4">
 <div>
@@ -1014,7 +988,7 @@ class: text-center
 <div class="container">
     <div class="person">
         <div class="name">Yisheng Chai</div>
-        <a href="mailto:john.doe@example.com" class="email">john.doe@example.com</a>
+        <a href="mailto:i@hackerchai.com" class="email">i@hackerchai.com</a>
     </div>
     <div class="person">
         <div class="name">Yingjie Zhao</div>
