@@ -5,12 +5,9 @@ theme: seriph
 # like them? see https://unsplash.com/collections/94734566/slidev
 background: https://unsplash.com/photos/mYBMP8pW4uQ/download?ixid=M3wxMjA3fDB8MXxjb2xsZWN0aW9ufDl8OTQ3MzQ1NjZ8fHx8fDJ8fDE3MjY4MDQwNDl8&force=true&w=2400
 # some information about your slides (markdown enabled)
-title: Welcome to LLGo
+title: LLGo Rust Ecosystem Explore
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
+  ## LLGo Rust Ecosystem Explore 
 # apply unocss classes to the current slide
 class: text-center
 # https://sli.dev/features/drawing
@@ -22,49 +19,94 @@ transition: slide-left
 mdc: true
 ---
 
-# Welcome to LLGo
+# LLGo Rust Ecosystem Explore
 
-Presentation slides for developers
-
-<div class="pt-12">
-  <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    Press Space for next page <carbon:arrow-right class="inline"/>
-  </span>
-</div>
-
-<div class="abs-br m-6 flex gap-2">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="text-xl slidev-icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" alt="GitHub" title="Open in GitHub"
-    class="text-xl slidev-icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon-logo-github />
-  </a>
-</div>
-
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
+Yisheng Chai & Yingjie Zhao
 
 ---
 transition: fade-out
 ---
 
-# What is Slidev?
+# Who are we?
 
-Slidev is a slides maker and presenter designed for developers, consist of the following features
+> Rust is a language empowering everyone to build reliable and efficient software, it can power performance-critical services, run on embedded devices, and easily integrate with other languages.
 
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - themes can be shared and re-used as npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embed Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export to PDF, PPTX, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - virtually anything that's possible on a webpage is possible in Slidev
+- 🌪 **Performance** - Rust is blazingly fast and memory-efficient: with no runtime or garbage collector
+- 🏭 **Reliability** - Rust’s rich type system and ownership model guarantee memory-safety and thread-safety
+- 🔧 **Productivity** - Rust has great documentation, a friendly compiler with useful error messages, and top-notch tooling
+- 🧑‍💻 **FFI Friendly** - Rust also use LLVM as backend, so it can easily integrate with other languages
 <br>
 <br>
 
-Read more about [Why Slidev?](https://sli.dev/guide/why)
+Meet more highlights with LLGo + Rust?
+
+<!--
+You can have `style` tag in markdown to override the style for the current page.
+Learn more: https://sli.dev/features/slide-scope-style
+-->
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: fade-out
+---
+
+# Introduction LLGo
+
+> Rust is a language empowering everyone to build reliable and efficient software, it can power performance-critical services, run on embedded devices, and easily integrate with other languages.
+
+- 🌪 **Performance** - Rust is blazingly fast and memory-efficient: with no runtime or garbage collector
+- 🏭 **Reliability** - Rust’s rich type system and ownership model guarantee memory-safety and thread-safety
+- 🔧 **Productivity** - Rust has great documentation, a friendly compiler with useful error messages, and top-notch tooling
+- 🧑‍💻 **FFI Friendly** - Rust also use LLVM as backend, so it can easily integrate with other languages
+<br>
+<br>
+
+Meet more highlights with LLGo + Rust?
+
+<!--
+You can have `style` tag in markdown to override the style for the current page.
+Learn more: https://sli.dev/features/slide-scope-style
+-->
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: fade-out
+---
+
+# Introduction Rust
+
+> Rust is a language empowering everyone to build reliable and efficient software, it can power performance-critical services, run on embedded devices, and easily integrate with other languages.
+
+- 🌪 **Performance** - Rust is blazingly fast and memory-efficient: with no runtime or garbage collector
+- 🏭 **Reliability** - Rust’s rich type system and ownership model guarantee memory-safety and thread-safety
+- 🔧 **Productivity** - Rust has great documentation, a friendly compiler with useful error messages, and top-notch tooling
+- 🧑‍💻 **FFI Friendly** - Rust also use LLVM as backend, so it can easily integrate with other languages
+<br>
+<br>
+
+Meet more highlights with LLGo + Rust?
 
 <!--
 You can have `style` tag in markdown to override the style for the current page.
@@ -88,38 +130,47 @@ Here is another comment.
 -->
 
 ---
+layout: two-cols
+layoutClass: gap-16
+---
+
+# Overview
+
+You can use the `Toc` component to generate a table of contents for your slides:
+
+```html
+<Toc minDepth="1" maxDepth="1"></Toc>
+```
+
+The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
+
+::right::
+
+<Toc v-click minDepth="1" maxDepth="2"></Toc>
+
+---
 transition: slide-up
 level: 2
 ---
 
-# Navigation
+# Targets
 
 Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
 
-## Keyboard Shortcuts
+## TODO
+<br>
 
-|     |     |
-| --- | --- |
-| <kbd>right</kbd> / <kbd>space</kbd>| next animation or slide |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd> | previous slide |
-| <kbd>down</kbd> | next slide |
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
 
-<!-- https://sli.dev/guide/animations.html#click-animation -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
 
 ---
 layout: two-cols
 layoutClass: gap-16
 ---
 
-# Table of contents
+# Technical Pain Points
 
 You can use the `Toc` component to generate a table of contents for your slides:
 
@@ -138,7 +189,7 @@ layout: image-right
 image: https://cover.sli.dev
 ---
 
-# Code
+# Technical Selection
 
 Use code snippets and get the highlighting directly, and even types hover!
 
@@ -191,7 +242,80 @@ Notes can also sync with clicks
 level: 2
 ---
 
-# Shiki Magic Move
+# Roadmap #1
+
+Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
+
+Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
+
+````md magic-move {lines: true}
+```ts {*|2|*}
+// step 1
+const author = reactive({
+  name: 'John Doe',
+  books: [
+    'Vue 2 - Advanced Guide',
+    'Vue 3 - Basic Guide',
+    'Vue 4 - The Mystery'
+  ]
+})
+```
+
+```ts {*|1-2|3-4|3-4,8}
+// step 2
+export default {
+  data() {
+    return {
+      author: {
+        name: 'John Doe',
+        books: [
+          'Vue 2 - Advanced Guide',
+          'Vue 3 - Basic Guide',
+          'Vue 4 - The Mystery'
+        ]
+      }
+    }
+  }
+}
+```
+
+```ts
+// step 3
+export default {
+  data: () => ({
+    author: {
+      name: 'John Doe',
+      books: [
+        'Vue 2 - Advanced Guide',
+        'Vue 3 - Basic Guide',
+        'Vue 4 - The Mystery'
+      ]
+    }
+  })
+}
+```
+
+Non-code blocks are ignored.
+
+```vue
+<!-- step 4 -->
+<script setup>
+const author = {
+  name: 'John Doe',
+  books: [
+    'Vue 2 - Advanced Guide',
+    'Vue 3 - Basic Guide',
+    'Vue 4 - The Mystery'
+  ]
+}
+</script>
+```
+````
+---
+level: 2
+---
+
+# Roadmap #2
 
 Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
 
@@ -262,8 +386,83 @@ const author = {
 ````
 
 ---
+level: 2
+---
 
-# Components
+# Roadmap #3
+
+Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
+
+Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
+
+````md magic-move {lines: true}
+```ts {*|2|*}
+// step 1
+const author = reactive({
+  name: 'John Doe',
+  books: [
+    'Vue 2 - Advanced Guide',
+    'Vue 3 - Basic Guide',
+    'Vue 4 - The Mystery'
+  ]
+})
+```
+
+```ts {*|1-2|3-4|3-4,8}
+// step 2
+export default {
+  data() {
+    return {
+      author: {
+        name: 'John Doe',
+        books: [
+          'Vue 2 - Advanced Guide',
+          'Vue 3 - Basic Guide',
+          'Vue 4 - The Mystery'
+        ]
+      }
+    }
+  }
+}
+```
+
+```ts
+// step 3
+export default {
+  data: () => ({
+    author: {
+      name: 'John Doe',
+      books: [
+        'Vue 2 - Advanced Guide',
+        'Vue 3 - Basic Guide',
+        'Vue 4 - The Mystery'
+      ]
+    }
+  })
+}
+```
+
+Non-code blocks are ignored.
+
+```vue
+<!-- step 4 -->
+<script setup>
+const author = {
+  name: 'John Doe',
+  books: [
+    'Vue 2 - Advanced Guide',
+    'Vue 3 - Basic Guide',
+    'Vue 4 - The Mystery'
+  ]
+}
+</script>
+```
+````
+
+
+---
+
+# Achievements
 
 <div grid="~ cols-2 gap-4">
 <div>
@@ -304,39 +503,94 @@ Also, HTML elements are valid:
 -->
 
 ---
-class: px-20
----
 
-# Themes
+# Achievements
 
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
+<div grid="~ cols-2 gap-4">
+<div>
 
-<div grid="~ cols-2 gap-2" m="t-2">
+You can use Vue components directly inside your slides.
 
-```yaml
----
-theme: default
----
+We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
+
+```html
+<Counter :count="10" />
 ```
 
-```yaml
----
-theme: seriph
----
-```
+<!-- ./components/Counter.vue -->
+<Counter :count="10" m="t-4" />
 
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
+Check out [the guides](https://sli.dev/builtin/components.html) for more.
 
 </div>
+<div>
 
-Read more about [How to use a theme](https://sli.dev/guide/theme-addon#use-theme) and
-check out the [Awesome Themes Gallery](https://sli.dev/resources/theme-gallery).
+```html
+<Tweet id="1390115482657726468" />
+```
+
+<Tweet id="1390115482657726468" scale="0.65" />
+
+</div>
+</div>
+
+<!--
+Presenter note with **bold**, *italic*, and ~~striked~~ text.
+
+Also, HTML elements are valid:
+<div class="flex w-full">
+  <span style="flex-grow: 1;">Left content</span>
+  <span>Right content</span>
+</div>
+-->
 
 ---
 
-# Clicks Animations
+# Achievements
+
+<div grid="~ cols-2 gap-4">
+<div>
+
+You can use Vue components directly inside your slides.
+
+We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
+
+```html
+<Counter :count="10" />
+```
+
+<!-- ./components/Counter.vue -->
+<Counter :count="10" m="t-4" />
+
+Check out [the guides](https://sli.dev/builtin/components.html) for more.
+
+</div>
+<div>
+
+```html
+<Tweet id="1390115482657726468" />
+```
+
+<Tweet id="1390115482657726468" scale="0.65" />
+
+</div>
+</div>
+
+<!--
+Presenter note with **bold**, *italic*, and ~~striked~~ text.
+
+Also, HTML elements are valid:
+<div class="flex w-full">
+  <span style="flex-grow: 1;">Left content</span>
+  <span>Right content</span>
+</div>
+-->
+
+
+
+---
+
+# Benchmarks
 
 You can add `v-click` to elements to add a click animation.
 
@@ -373,7 +627,7 @@ also allows you to add
 
 ---
 
-# Motions
+# Conclusion
 
 Motion animations are powered by [@vueuse/motion](https://motion.vueuse.org/), triggered by `v-motion` directive.
 
@@ -453,7 +707,7 @@ const final = {
 
 ---
 
-# LaTeX
+# Problems
 
 LaTeX is supported out-of-box. Powered by [KaTeX](https://katex.org/).
 
@@ -475,7 +729,7 @@ $$
 
 ---
 
-# Diagrams
+# Future
 
 You can create diagrams / graphs from textual descriptions, directly in your Markdown.
 
@@ -554,10 +808,10 @@ Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML D
 ---
 foo: bar
 dragPos:
-  square: 324,145,167,_,-16
+  square: 0,-17,0,0
 ---
 
-# Draggable Elements
+# Thanks
 
 Double-click on the draggable elements to edit their positions.
 
@@ -596,14 +850,11 @@ Double-click on the draggable elements to edit their positions.
 
 <v-drag-arrow pos="67,452,60,-202" two-way op70 />
 
----
-src: ./pages/imported-slides.md
-hide: false
----
+
 
 ---
 
-# Monaco Editor
+# Links
 
 Slidev provides built-in Monaco Editor support.
 
@@ -632,7 +883,7 @@ layout: center
 class: text-center
 ---
 
-# Learn More
+# Thank You For Listening
 
 [Documentation](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/resources/showcases)
 
