@@ -344,7 +344,7 @@ We also implement a side-project [dylib-installer](https://github.com/hackerchai
 <br>
 <br>
 
-![](./public/dylib-installer.gif)
+![](/dylib-installer.gif)
 
 ---
 level: 2
@@ -567,23 +567,19 @@ type ResponseWriter interface {
 level: 2
 ---
 
-# Achievements #1
+# Async runtime option
 
 <div grid="~ cols-2 gap-4">
 <div>
 
-You can use Vue components directly inside your slides.
+`Libuv` gives us a non-blocking I/O model, which is suitable for building high-performance web servers and async I/O operations.
 
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
+We can utilize `*libuv.Async` to implement LLGo's async syntactic sugar in the future.
 
-```html
-<Counter :count="10" />
+
+```go
+result := asyncTask.Await()
 ```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
 
 </div>
 <div>
@@ -607,55 +603,13 @@ Also, HTML elements are valid:
 </div>
 -->
 
----
-level: 2
----
 
-# Achievements #2
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-You can use Vue components directly inside your slides.
-
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
-```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
-</div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
-</div>
-
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
 
 ---
 level: 2
 ---
 
-# Implement net/http Client
+# Ability for net/http Client
 
 Using Hyper FFI with libuv, we have implemented basic client functionality, bringing the ability to send HTTP requests to LLGo.
 
@@ -684,7 +638,7 @@ func main() {
 }
 ```
 
-<img src="/Users/spongehah/Documents/qiniu-campus-slide/client_run.gif" style="width: 400px; height: 380px;"/>
+<!-- <img src="/Users/spongehah/Documents/qiniu-campus-slide/client_run.gif" style="width: 400px; height: 380px;"/> -->
 
 </div>
 
@@ -698,236 +652,137 @@ Also, HTML elements are valid:
 </div>
 -->
 
+---
+level: 2
+---
 
+# Ability for net/http Server
+
+<div grid="~ cols-2 gap-4">
+<div>
+
+```go
+func echoHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf(">> %s %s HTTP/%d.%d\n", r.Method, r.RequestURI, r.ProtoMajor, r.ProtoMinor)
+	for key, values := range r.Header {
+		for _, value := range values {
+			fmt.Printf(">> %s: %s\n", key, value)
+		}
+	}
+	fmt.Printf(">> URL: %s\n", r.URL.String())
+	fmt.Printf(">> RemoteAddr: %s\n", r.RemoteAddr)
+
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte("Hello, World!"))
+}
+
+func main() {
+	http.HandleFunc("/echo", echoHandler)
+
+	fmt.Println("Starting server on :1234")
+	server := http.NewServer("127.0.0.1:1234")
+	if err := server.ListenAndServe(); err != nil {
+		panic(err)
+	}
+}
+```
+</div>
+<div>
+
+<img src="/llgo-server-run.gif" style="width: 337px; height: 400px;"/>
+
+</div>
+</div>
+
+<!--
+Presenter note with **bold**, *italic*, and ~~striked~~ text.
+
+Also, HTML elements are valid:
+<div class="flex w-full">
+  <span style="flex-grow: 1;">Left content</span>
+  <span>Right content</span>
+</div>
+-->
 
 ---
 
 # Benchmarks
 
-You can add `v-click` to elements to add a click animation.
+Benchmark with 6 threads and 100/1000 connections:
 
-<div v-click>
-
-This shows up when you click the slide:
-
-```html
-<div v-click>This shows up when you click the slide.</div>
-```
-
-</div>
+| Language | qps-100c | qps-1000c | diff |
+|----------|----------|----------|----------|
+| LLGo |  42257.73 | 37401.09 | 0.00% |
+| Golang |  97282.51 | 95185.08 | +154.50% |
 
 <br>
 
-<v-click>
+| Language | qps-100c | qps-1000c | diff |
+|----------|----------|----------|----------|
+| LLGo |  42257.73 | 40612.14 | 0.00% |
+| C |  67660.83 |  70277.74 | +66.6% |
 
-The <span v-mark.red="3"><code>v-mark</code> directive</span>
-also allows you to add
-<span v-mark.circle.orange="4">inline marks</span>
-, powered by [Rough Notation](https://roughnotation.com/):
-
-```html
-<span v-mark.underline.orange>inline markers</span>
-```
-
-</v-click>
-
-<div mt-20 v-click>
-
-[Learn more](https://sli.dev/guide/animations#click-animation)
-
-</div>
+This benchmark shows that Golang net/http is about <span v-mark.circle.orange="4">154% faster </span> than LLGo net/http, and C implementation is about <span v-mark.circle.orange="4">66.6% faster </span> than LLGo in same condition.
 
 ---
+level: 2
+---
 
-# Conclusion
+# Growth & Challenges
 
-Personal Growth and Challenges: Insights from Yingjie Zhao
+Insights from Yingjie Zhao
+
+Growth:
 
 - **Technical Transition and Challenge**
 From Java to Go, tackling low-level programming, enhancing comprehensive skills
 - **Deep Dive into Programming Mindset**
 Source code vs. business code, focusing on robustness, mastering Go features and patterns
-- **Open Source Contribution**
-Engaging with high-quality code, learning best practices, developing collaboration skills
-- **Comprehensive Growth**
-Broadening perspective, strengthening problem-solving abilities, cultivating engineering mindset
+
+Challenges:
+
+- **The cost of language learning**
+Uncertainty in transitioning from Rust to LLGo
+- **The difficulties of mastering system fundamentals**
+Using lower-level APIs for more fine-grained control, need for deep understanding of Hyper and Libuv to utilize them effectively
 
 ---
-
-# Challenges for me
-
-<br>
-
-Of course, I've also encountered many problems. Writing source code is very challenging. We need to consider the robustness of the code much more carefully.
-
-- Uncertainty in transitioning from Rust to LLGo
-- Need for deep understanding of Hyper and Libuv to utilize them effectively
-- Comprehending Libuv's thread model
-- Using lower-level APIs for more fine-grained control
-
-
+level: 2
 ---
 
-Motion animations are powered by [@vueuse/motion](https://motion.vueuse.org/), triggered by `v-motion` directive.
+# Growth & Challenges
 
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :click-3="{ x: 80 }"
-  :leave="{ x: 1000 }"
->
-  Slidev
-</div>
-```
+Insights from Yisheng Chai
 
-<div class="w-60 relative">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-square.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-circle.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-triangle.png"
-      alt=""
-    />
-  </div>
+Growth:
 
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
+- **Solid understanding of the fundamentals of the Go language**
+When dealing with the underlying layers, a solid knowledge base is even more essential.
+- **A more constructive architectural design capability.**
+When designing large software, it's important to consider metrics like system scalability and robustness.
 
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
+Challenges:
 
-<div
-  v-motion
-  :initial="{ x:35, y: 30, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
+- **The difficulty and techniques of debugging** Debugging requires advanced skills and deep understanding. The absence of debugging tools demands even more caution.
 
-[Learn more](https://sli.dev/guide/animations.html#motion)
-
-</div>
 
 ---
 
 # Problems
 
 - The client functionality still has some issues. When the concurrency level is too high, there's a probability of causing program blockage.
+- The server is not as fast as the Go net/http in the same conditions. It still has a long way to optimize.
+- Due to lack of lightweight goroutine, the server handler can not operate stuck logic.
+- [Hyper](https://github.com/hyperium/hyper) server FFI is not merged yet. It still have some issues.
 
 
 ---
 
 # Future
 
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
+We can do more:
 
-<div class="grid grid-cols-4 gap-5 pt-4 -mb-6">
-
-```mermaid {scale: 0.5, alt: 'A simple sequence diagram'}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-```mermaid
-mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectiveness<br/>and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
-```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
-}
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
-```
-
-</div>
-
-Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML Diagrams](https://sli.dev/features/plantuml)
+- 
 
 ---
 foo: bar
