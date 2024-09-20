@@ -32,7 +32,7 @@ transition: fade-out
 - Yisheng Chai: Golang&Rust Backend Developer, I've built [Zeabur](https://zeabur.com) which is a cloud native deployment platform, [Casbin-rs](https://github.com/casbin/casbin-rs) rust implementation of [Casbin](https://casbin.org) which is an efficient open-source access control library in Go. I write golang for work and rust for fun. You can get in touch with me on [hackerchai.com](https://hackerchai.com)
 <br>
 <br>
-- Yingjie Zhao: TO BE FILLED
+- Yingjie Zhao: Golang&Java Backend Developer, At Qiniu, I encountered Go for the first time, and I look forward to improving and doing better.
 <br>
 <br>
 
@@ -146,11 +146,6 @@ class: text-center
         padding: 20px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         width: 800px;
-    }
-    h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 20px;
     }
     .advantages {
         display: grid;
@@ -324,7 +319,7 @@ pub extern "C" fn csv_reader_read_record(ptr: *mut c_void) -> *const c_char {
 
 ```rust {*|3-4|5-6|*}
 // 5: Map Rust functions in Go, ensuring type consistency.
-// Convert strings between C and Rust.
+// Map Rust functions in Go, ensuring type consistency.
 //go:linkname NewReader C.csv_reader_new
 func NewReader(file_path *c.Char) *Reader
 
@@ -342,73 +337,132 @@ sudo dylib_installer <dylib_lib> <header_file_lib>
 level: 2
 ---
 
-# Roadmap #2
+<style>
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        width: 800px;
+    }
+    .features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .feature {
+        width: 30%;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .icon {
+        font-size: 36px;
+        margin-bottom: 10px;
+        color: #4a90e2;
+    }
+    .feature h2 {
+        color: #333;
+        margin: 10px 0;
+        font-size: 18px;
+    }
+    .feature p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    #event-loop {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    #event-loop .icon {
+        font-size: 48px;
+    }
+    #event-loop h2 {
+        font-size: 22px;
+    }
+</style>
 
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
+# Successfully migrated libuv
 
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
+[Libuv](https://github.com/libuv/libuv): A cross-platform asynchronous I/O library.
+
+<center>
+  <div class="container">
+      <div class="features">
+          <div id="event-loop" class="feature">
+              <div class="icon">🔄</div>
+              <h2>Event Loop</h2>
+              <p>Efficiently handles asynchronous operations, forming the core of libuv's design</p>
+          </div>
+          <div class="feature">
+              <div class="icon">📁</div>
+              <h2>File System Operations</h2>
+              <p>Asynchronous file I/O for efficient data handling</p>
+          </div>
+          <div class="feature">
+              <div class="icon">🌐</div>
+              <h2>Network Programming</h2>
+              <p>TCP/UDP sockets, DNS resolution, and more</p>
+          </div>
+          <div class="feature">
+              <div class="icon">🧵</div>
+              <h2>Thread Pool</h2>
+              <p>Handles blocking operations without affecting performance</p>
+          </div>
+          <div class="feature">
+              <div class="icon">💻</div>
+              <h2>Cross-platform Support</h2>
+              <p>Works seamlessly on Windows, Linux, macOS, and more</p>
+          </div>
+      </div>
+  </div>
+</center>
+
+---
+level: 3
+---
+
+## Using Libuv in C and LLGo：
+<br>
+<br>
 
 ````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-})
+```c {*|2|4-5|7-8|10-15|16|*}
+// C
+loop = uv_default_loop();
+
+uv_tcp_t server;
+uv_tcp_init(loop, &server);
+
+struct sockaddr_in addr;
+uv_ip4_addr("0.0.0.0", DEFAULT_PORT, &addr);
+
+uv_tcp_bind(&server, (const struct sockaddr*)&addr, 0);
+int r = uv_listen((uv_stream_t*) &server, DEFAULT_BACKLOG, on_new_connection);
+if (r) {
+    fprintf(stderr, "Listen error %s\n", uv_strerror(r));
+    return 1;
+}
+uv_run(loop, UV_RUN_DEFAULT);
 ```
 
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
-    }
-  }
-}
-```
+```go {*|2|4-5|7-8|10-15|16|*}
+// LLGo
+loop := libuv.DefaultLoop()
 
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: 'John Doe',
-      books: [
-        'Vue 2 - Advanced Guide',
-        'Vue 3 - Basic Guide',
-        'Vue 4 - The Mystery'
-      ]
-    }
-  })
-}
-```
+var server libuv.Tcp
+libuv.InitTcp(loop, &server)
 
-Non-code blocks are ignored.
+var addr cnet.SockaddrIn
+libuv.Ip4Addr(c.Str("0.0.0.0"), DEFAULT_PORT, &addr)
 
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
+server.Bind((*cnet.Sockaddr)(unsafe.Pointer(&addr)), 0)
+r := (*libuv.Stream)(unsafe.Pointer(&server)).Listen(DEFAULT_BACKLOG, onNewConnection)
+if r != 0 {
+  fmt.Fprintf(os.Stderr, "Listen error %s\n", c.GoString(libuv.Strerror(libuv.Errno(r))))
+  return 1
 }
-</script>
+loop.Run(libuv.RUN_DEFAULT)
 ```
 ````
 
@@ -579,34 +633,37 @@ Also, HTML elements are valid:
 level: 2
 ---
 
-# Achievements #3
+# Implement net/http Client
+
+Using Hyper FFI with libuv, we have implemented basic client functionality, bringing the ability to send HTTP requests to LLGo.
 
 <div grid="~ cols-2 gap-4">
-<div>
 
-You can use Vue components directly inside your slides.
+```go
+import (
+	"fmt"
+	"io"
 
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
+	"github.com/goplus/llgoexamples/x/net/http"
+)
+func main() {
+	resp, err := http.Get("https://httpbin.org")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(body))
+}
 ```
 
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
+<img src="/Users/spongehah/Documents/qiniu-campus-slide/client_run.gif" style="width: 400px; height: 380px;"/>
 
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
-</div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
 </div>
 
 <!--
