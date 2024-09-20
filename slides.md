@@ -719,6 +719,33 @@ also allows you to add
 
 # Conclusion
 
+Personal Growth and Challenges: Insights from Yingjie Zhao
+
+- **Technical Transition and Challenge**
+From Java to Go, tackling low-level programming, enhancing comprehensive skills
+- **Deep Dive into Programming Mindset**
+Source code vs. business code, focusing on robustness, mastering Go features and patterns
+- **Open Source Contribution**
+Engaging with high-quality code, learning best practices, developing collaboration skills
+- **Comprehensive Growth**
+Broadening perspective, strengthening problem-solving abilities, cultivating engineering mindset
+
+---
+
+# Challenges for me
+
+<br>
+
+Of course, I've also encountered many problems. Writing source code is very challenging. We need to consider the robustness of the code much more carefully.
+
+- Uncertainty in transitioning from Rust to LLGo
+- Need for deep understanding of Hyper and Libuv to utilize them effectively
+- Comprehending Libuv's thread model
+- Using lower-level APIs for more fine-grained control
+
+
+---
+
 Motion animations are powered by [@vueuse/motion](https://motion.vueuse.org/), triggered by `v-motion` directive.
 
 ```html
