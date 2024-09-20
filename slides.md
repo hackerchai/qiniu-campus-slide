@@ -333,6 +333,19 @@ func (reader *Reader) Free() {}
 sudo dylib_installer <dylib_lib> <header_file_lib>
 ```
 ````
+
+---
+level: 2
+---
+
+# How to port Rust FFI to LLGo
+
+We also implement a side-project [dylib-installer](https://github.com/hackerchai/dylib-installer) tool to install the generated dynamic library and header files.
+<br>
+<br>
+
+![](./public/dylib-installer.gif)
+
 ---
 level: 2
 ---
@@ -470,73 +483,82 @@ loop.Run(libuv.RUN_DEFAULT)
 level: 2
 ---
 
-# Roadmap #3
+# Implement LLGo's net/http using Rust Hyper
 
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
+Why Hyper? [Hyper](https://hyper.rs/) is a fast, async HTTP client library low-level written in Rust. Also it's the basic library used by [Tokio](https://tokio.rs/) ecosystem to build async web server such as the well-known web framework [Axum](https://github.com/tokio-rs/axum).
 
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
+Hyper provides native C FFI support for client and we implement server backing [PR #3084](https://github.com/hyperium/hyper/pull/3084):
 
 ````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-})
+```shell {*|2|*}
+// step 1: build the hyper dynamic library
+RUSTFLAGS="--cfg hyper_unstable_ffi" cargo rustc --features client,server,http1,http2,ffi --crate-type cdylib
+```
+```c {*|3-6|*}
+// step 2: implement the hyper FFI in C
+static hyper_io *create_io(conn_data *conn) {
+    hyper_io *io = hyper_io_new();
+    hyper_io_set_userdata(io, (void *)conn, free_conn_data);
+    hyper_io_set_read(io, read_cb);
+    hyper_io_set_write(io, write_cb);
+
+    return io;
+}
 ```
 
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
-    }
+```go {*|3-6}
+// step 3: we can find the hyper FFI implementation in the following repo
+https://github.com/hackerchai/hyper/tree/feature/server-ffi-libuv-demo/capi/examples
+```
+````
+---
+level: 2
+---
+
+# Implement LLGo's net/http using Rust Hyper
+
+The core logic of hyper is `Executor` and `Task`
+
+Here we implement the `net/http` logic using hyper task loop poll and libuv as async runtime:
+
+````md magic-move {lines: true}
+```go {*|2-4|3}
+// step 1: link the hyper dynamic library
+const (
+	LLGoPackage = "link: $(pkg-config --libs hyper); -lhyper"
+)
+```
+
+```go {*|3-6}
+// step 2: implement the hyper FFI in LLGo
+// Creates a task to execute the callback with each body chunk received.
+// llgo:link (*Body).Foreach C.hyper_body_foreach
+func (body *Body) Foreach(callback BodyForeachCallback, userdata c.Pointer, drop UserdataDrop) *Task {
+	return nil
+}
+```
+
+```go {*|4-6}
+// step 3: using libuv as async runtime for hyper
+func onNewConnection(serverStream *libuv.Stream, status c.Int) {
+  ...
+	if serverStream.Accept((*libuv.Stream)(unsafe.Pointer(&conn.Stream))) == 0 {
+    ...
   }
 }
 ```
 
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: 'John Doe',
-      books: [
-        'Vue 2 - Advanced Guide',
-        'Vue 3 - Basic Guide',
-        'Vue 4 - The Mystery'
-      ]
-    }
-  })
+```go {*|2-4|6-10}
+// step 4: implement the net/http core logic in Golang
+type Handler interface {
+	ServeHTTP(ResponseWriter, *Request)
 }
-```
 
-Non-code blocks are ignored.
-
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
+type ResponseWriter interface {
+	Header() Header
+	Write([]byte) (int, error)
+	WriteHeader(statusCode int)
 }
-</script>
 ```
 ````
 
