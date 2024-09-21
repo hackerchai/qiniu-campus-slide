@@ -116,6 +116,7 @@ transition: slide-up
 <Toc v-click columns="2" minDepth="1" maxDepth="1"></Toc>
 
 
+
 ---
 transition: slide-up
 ---
@@ -136,9 +137,25 @@ At first, we have multiple thoughts on how to utilize Rust to enhance the LLGo e
 
 
 ---
+
+# Technical Pain Points
+
+- Concurrency Limitations<br>
+Challenge: Lack of lightweight coroutine mechanisms similar to goroutines<br>
+Solution: Introduce Libuv asynchronous I/O library to significantly enhance concurrent processing capabilities
+
+- Network Functionality Gap<br>
+Challenge: Absence of comprehensive network library support<br>
+Solution: Plan to integrate Hyper library to implement functionality comparable to Go's standard net/http library
+
+
+
+
+---
 layout: center
 class: text-center
 ---
+
 
 <style>
     .container {
@@ -583,6 +600,7 @@ type ResponseWriter interface {
 ````
 
 
+
 ---
 level: 2
 ---
@@ -601,14 +619,36 @@ We can utilize `*libuv.Async` to implement LLGo's async syntactic sugar in the f
 result := asyncTask.Await()
 ```
 
+<br>
+<br>
+Benefits:
+Simplifies async programming, improves code quality, and enhances concurrency management.
+
+Future Possibilities:
+Integrates with Go's concurrency, enables custom scheduling, and boosts I/O performance
+
+
+
 </div>
 <div>
+Potential Use Case
+```go
+func performAsyncOperation() *libuv.Async {
+    async := libuv.NewAsync()
+    go func() {
+        // Simulating a time-consuming operation
+        time.Sleep(2 * time.Second)
+        async.Send("Operation completed")
+    }()
+    return async
+}
 
-```html
-<Tweet id="1390115482657726468" />
+func main() {
+    asyncOp := performAsyncOperation()
+    result := asyncOp.Await()
+    fmt.Println(result) // Output: Operation completed
+}
 ```
-
-<Tweet id="1390115482657726468" scale="0.65" />
 
 </div>
 </div>
@@ -658,7 +698,7 @@ func main() {
 }
 ```
 
-<!-- <img src="/Users/spongehah/Documents/qiniu-campus-slide/client_run.gif" style="width: 400px; height: 380px;"/> -->
+<img src="/client_run.gif" style="width: 400px; height: 380px;"/> 
 
 </div>
 
@@ -808,60 +848,23 @@ We can do more:
 - **Port more powerful rust ecosystem tools to LLGO**
 
 ---
-foo: bar
-layout: center
-class: text-center
----
 
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        height: 100vh;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .container {
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-    h1 {
-        color: #333;
-        margin-bottom: 30px;
-    }
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-    li {
-        margin: 15px 0;
-        font-size: 18px;
-        color: #555;
-    }
-    .footer {
-        margin-top: 30px;
-        font-style: italic;
-        color: #777;
-    }
-</style>
+
 
 # Thanks
+    
+-  @老许
+-  @各位导师
+-  @军哥
+-  @张之阳
+-  @HR
+    
+Your support and guidance made this project possible.
 
-<div class="container">
-    <ul>
-        <li>@老许</li>
-        <li>@各位导师</li>
-        <li>@军哥</li>
-        <li>@张之阳</li>
-        <li>@HR</li>
-    </ul>
-    <p class="footer">Your support and guidance made this project possible.</p>
-</div>
+
+
+
+
 
 --- 
 layout: center
@@ -872,62 +875,108 @@ class: text-center
   .container {
       background-color: rgba(255, 255, 255, 0.9);
       border-radius: 15px;
-      padding: 40px;
+      padding: 30px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 800px;
+      max-width: 900px;
       width: 100%;
+      margin: 0 auto;
   }
   .links {
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      flex-direction: column;
+      gap: 15px;
   }
-  .link {
-      flex: 0 1 calc(33.333% - 20px);
-      min-width: 150px;
-      padding: 12px 24px;
-      background-color: #4facfe;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      font-size: 18px;
-      transition: all 0.3s ease;
+  .link-item {
       display: flex;
-      justify-content: center;
       align-items: center;
-      text-align: center;
+      background-color: #f0f4f8;
+      border-radius: 10px;
+      padding: 7px;
+      transition: all 0.3s ease;
   }
-  .link:hover {
-      background-color: #00f2fe;
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  .link-item:hover {
+      background-color: #e1e8ed;
+      transform: translateX(5px);
+  }
+  .link-icon {
+      font-size: 24px;
+      margin-right: 15px;
+      color: #4facfe;
+      flex-shrink: 0;
+  }
+  .link-text {
+      flex-grow: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+  }
+  .link-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-right: 15px;
+  }
+  .link-url {
+      font-size: 14px;
+      color: #4facfe;
   }
   @media (max-width: 600px) {
-      .link {
-          flex: 0 1 calc(50% - 20px);
+      .link-text {
+          flex-direction: column;
+          align-items: flex-start;
       }
-  }
-  @media (max-width: 400px) {
-      .link {
-          flex: 0 1 100%;
+      .link-title {
+          margin-bottom: 5px;
       }
   }
 </style>
 
-# Links
-<br>
-
-
 <div class="container">
+    <h1 style="text-align: center; margin-bottom: 30px;">Links</h1>
     <div class="links">
-        <a href="https://github.com/goplus/llgo" class="link" target="_blank">LLGo GitHub</a>
-        <a href="https://github.com/goplus/gop" class="link" target="_blank">Go+ GitGub</a>
-        <a href="https://github.com/goplus/llgo/blob/main/doc/How-to-support-a-Rust-Library.md" class="link" target="_blank">Documentation</a>
-        <a href="https://github.com/goplus/llgoexamples/tree/main/rust/hyper" class="link" target="_blank">hyper.go</a>
-        <a href="https://github.com/goplus/llgoexamples/tree/main/rust/opendal" class="link" target="_blank">opendal.go</a>
-        <a href="https://github.com/goplus/llgoexamples/tree/main/rust/sled" class="link" target="_blank">sled.go</a>
+        <div class="link-item">
+            <div class="link-icon">📂</div>
+            <div class="link-text">
+                <div class="link-title">LLGo GitHub</div>
+                <div class="link-url">https://github.com/goplus/llgo</div>
+            </div>
+        </div>
+        <div class="link-item">
+            <div class="link-icon">📂</div>
+            <div class="link-text">
+                <div class="link-title">Go+ GitHub</div>
+                <div class="link-url">https://github.com/goplus/gop</div>
+            </div>
+        </div>
+        <div class="link-item">
+            <div class="link-icon">📄</div>
+            <div class="link-text">
+                <div class="link-title">Documentation</div>
+                <div class="link-url">https://github.com/goplus/llgo/blob/main/doc/How-to-support-a-Rust-Library.md</div>
+            </div>
+        </div>
+        <div class="link-item">
+            <div class="link-icon">🔗</div>
+            <div class="link-text">
+                <div class="link-title">hyper.go</div>
+                <div class="link-url">https://github.com/goplus/llgoexamples/tree/main/rust/hyper</div>
+            </div>
+        </div>
+        <div class="link-item">
+            <div class="link-icon">🔗</div>
+            <div class="link-text">
+                <div class="link-title">opendal.go</div>
+                <div class="link-url">https://github.com/goplus/llgoexamples/tree/main/rust/opendal</div>
+            </div>
+        </div>
+        <div class="link-item">
+            <div class="link-icon">🔗</div>
+            <div class="link-text">
+                <div class="link-title">sled.go</div>
+                <div class="link-url">https://github.com/goplus/llgoexamples/tree/main/rust/sled</div>
+            </div>
+        </div>
     </div>
 </div>
 <br>
