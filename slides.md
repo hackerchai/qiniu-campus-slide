@@ -285,7 +285,7 @@ libc = "0.2"
 crate-type = ["cdylib"]
 ```
 
-```toml {*|3-4|*}
+```rust {*|3-4|*}
 // 2: Configure Cargo.toml
 // Wrap Rust functions with special attributes and unsafe blocks to make them callable from C.
 #[no_mangle]
@@ -324,7 +324,7 @@ pub extern "C" fn csv_reader_read_record(ptr: *mut c_void) -> *const c_char {
 }
 ```
 
-```rust {*|3-4|5-6|*}
+```go {*|3-4|5-6|*}
 // 5: Map Rust functions in Go, ensuring type consistency.
 // Map Rust functions in Go, ensuring type consistency.
 //go:linkname NewReader C.csv_reader_new
@@ -334,7 +334,7 @@ func NewReader(file_path *c.Char) *Reader
 func (reader *Reader) Free() {}
 ```
 
-```rust {*|3|*}
+```shell {*|3|*}
 // 6: Install Dynamic Library.
 // Use the dylib-installer tool to install the generated dynamic library and header files.
 sudo dylib_installer <dylib_lib> <header_file_lib>
@@ -789,7 +789,10 @@ Challenges:
 
 We can do more:
 
--
+- **Implement new async feature replace of thread based goroutine**
+- **Takeover the Hyper [PR](https://github.com/hyperium/hyper/pull/3084) to make server feture stable**
+- **Explore new async I/O model like io_uring**
+- **Port more powerful rust ecosystem tools to LLGO**
 
 ---
 foo: bar
