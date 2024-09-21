@@ -132,6 +132,7 @@ At first, we have multiple thoughts on how to utilize Rust to enhance the LLGo e
 - [ ] Utilize some Rust Crates as LLGo's standard library
 - [ ] Port some famous and efficient Rust framework to LLGo
 - [ ] Implement LLGo's net/http using Rust web infrastructure
+- [ ] Accelerate asynchronous I/O using io_uring.
 
 
 ---
