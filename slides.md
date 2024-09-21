@@ -358,6 +358,18 @@ We also implement a side-project [dylib-installer](https://github.com/hackerchai
 level: 2
 ---
 
+# Rust ecosystem porting to LLGo
+
+We have ported some Rust libraries to LLGo, including:
+
+- [Sled](https://github.com/goplus/llgoexamples/tree/main/rust/sled) - An embedded database with a strong focus on performance, flexibility, and reliability.
+- [Opendal](https://github.com/goplus/llgoexamples/tree/main/rust/opendal) - It offers a unified data access layer, empowering users to seamlessly and efficiently retrieve data from diverse storage services.
+- [CSV Reader](https://github.com/goplus/llgoexamples/tree/main/rust/csv) - A CSV reader library for reading and writing CSV files.
+
+---
+level: 2
+---
+
 <style>
     .container {
         background-color: white;
