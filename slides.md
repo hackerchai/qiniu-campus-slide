@@ -152,74 +152,6 @@ Solution: Plan to integrate Hyper library to implement functionality comparable 
 
 
 ---
-layout: center
-class: text-center
----
-
-
-<style>
-    .container {
-        background-color: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        width: 800px;
-    }
-    .advantages {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    .advantage {
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        padding: 15px;
-    }
-    .advantage h2 {
-        color: #e57373;
-        margin-top: 0;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-    }
-    .advantage p {
-        color: #666;
-        font-size: 14px;
-        margin-bottom: 0;
-    }
-    .icon {
-        font-size: 24px;
-        margin-right: 10px;
-    }
-</style>
-
-# Technical Pain Points
-
-<br>
-
-<div class="container">
-    <div class="advantages">
-        <div class="advantage">
-            <h2><span class="icon">🚀</span>Performance and Safety</h2>
-            <p>Near-C performance with memory safety, ideal for high-performance network libraries.</p>
-        </div>
-        <div class="advantage">
-            <h2><span class="icon">🛡️</span>Concurrency Safety</h2>
-            <p>Catches memory errors and data races at compile-time, reducing runtime errors and vulnerabilities.</p>
-        </div>
-        <div class="advantage">
-            <h2><span class="icon">⚡</span>Asynchronous Programming</h2>
-            <p>Strong async support facilitates efficient non-blocking I/O while maintaining code clarity.</p>
-        </div>
-        <div class="advantage">
-            <h2><span class="icon">🔗</span>Compatibility</h2>
-            <p>Excellent FFI support enables easy C library integration and seamless incorporation into LLGo.</p>
-        </div>
-    </div>
-</div>
-
----
 layout: two-cols
 ---
 
@@ -782,7 +714,7 @@ Benchmark with 6 threads and 100/1000 connections:
 | LLGo |  42257.73 | 40612.14 | 0.00% |
 | C |  67660.83 |  70277.74 | +66.6% |
 
-This benchmark shows that Golang net/http is about <span v-mark.circle.orange="4">154% faster </span> than LLGo net/http, and C implementation is about <span v-mark.circle.orange="4">66.6% faster </span> than LLGo in same condition.
+This benchmark shows that Golang net/http is about <span v-mark.circle.orange="1">154% faster </span> than LLGo net/http, and C implementation is about <span v-mark.circle.orange="1">66.6% faster </span> than LLGo in same condition.
 
 ---
 level: 2
@@ -801,7 +733,7 @@ Source code vs. business code, focusing on robustness, mastering Go features and
 
 Challenges:
 
-- **The cost of language learning**
+- **Uncertainty in Rust**
 Uncertainty in transitioning from Rust to LLGo
 - **The difficulties of mastering system fundamentals**
 Using lower-level APIs for more fine-grained control, need for deep understanding of Hyper and Libuv to utilize them effectively
@@ -848,20 +780,81 @@ We can do more:
 - **Port more powerful rust ecosystem tools to LLGO**
 
 ---
+layout: center
+class: text-center
+---
 
-
-
-# Thanks
     
--  @老许
--  @各位导师
--  @军哥
--  @张之阳
--  @HR
-    
-Your support and guidance made this project possible.
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 800px;
+        width: 90%;
+    }
+    h1 {
+        color: #4a4a4a;
+        font-size: 2.5em;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .thanks {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 10px 0;
+    }
+    .thanks li {
+        flex: 0 0 auto;
+        margin: 0 10px;
+        font-size: 1.2em;
+        color: #555;
+        background-color: #f0f0f0;
+        padding: 10px 20px;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+    .thanks li:hover {
+        background-color: #667eea;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    .footer {
+        margin-top: 30px;
+        font-style: italic;
+        color: #777;
+        font-size: 1em;
+        line-height: 1.5;
+    }
+</style>
 
-
+<div class="container">
+    <h1>Thanks</h1>
+    <ul class="thanks">
+        <li>@老许</li>
+        <li>@各位导师</li>
+        <li>@军哥</li>
+        <li>@张之阳</li>
+        <li>@HR</li>
+    </ul>
+    <p class="footer">Your support and guidance made this project possible.</p>
+</div>
 
 
 
