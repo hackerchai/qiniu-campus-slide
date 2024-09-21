@@ -201,38 +201,32 @@ class: text-center
     </div>
 </div>
 
-
-
 ---
-layout: image-right
-image: https://cover.sli.dev
+layout: two-cols
 ---
 
 # Technical Implementations
 
-Use code snippets and get the highlighting directly, and even types hover!
+Our goal is to implement a simple HTTP server/client using Rust Hyper and Libuv as async runtime.
 
-```ts {all|5|7|7-8|10|all} twoslash
-// TwoSlash enables TypeScript hover information
-// and errors in markdown code blocks
-// More at https://shiki.style/packages/twoslash
+````md magic-move {lines: true}
+```go {*|2-5|8-14|*}
+// get the number of processors on the system
+cpuCount = int(c.Sysconf(_SC_NPROCESSORS_ONLN))
+if cpuCount <= 0 {
+  cpuCount = 4
+}
 
-import { computed, ref } from 'vue'
-
-const count = ref(0)
-const doubled = computed(() => count.value * 2)
-
-doubled.value = 2
+// create event loops
+for i := 0; i < cpuCount; i++ {
+  el, err := newEventLoop()
+  if err != nil {
+    return fmt.Errorf("failed to create event loop")
+  }
+  srv.eventLoop = append(srv.eventLoop, el)
+}
 ```
-
-<arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="334" color="#953" width="2" arrowSize="1" />
-
-<!-- This allow you to embed external code blocks -->
-<<< @/snippets/external.ts#snippet
-
-<!-- Footer -->
-
-[Learn more](https://sli.dev/features/line-highlighting)
+````
 
 <!-- Inline style -->
 <style>
@@ -246,16 +240,29 @@ doubled.value = 2
   display: none;
 }
 </style>
+::right::
+```plantuml {scale: 0.8}
+@startuml
+package "Server" {
+  EventLoop - [EventLoop]
+  [Handler]
+  [HTTPServe]
+}
+node "EventLoop" {
+  LibuvLoop --> [Hyper Executor]
+  [User Connection 1] --> LibuvLoop
+  [User Connection N] --> LibuvLoop
+  [Hyper Executor] --> [TaskPoll]
+  [TaskPoll] --> [Hyper Executor]
+}
 
-<!--
-Notes can also sync with clicks
-
-[click] This will be highlighted after the first click
-
-[click] Highlighted with `count = ref(0)`
-
-[click:3] Last click (skip two clicks)
--->
+database "HTTPServe" {
+  [Hyper Executor] --> [Request]
+  [Request] --> [Handler]
+  [Handler] --> [Response]
+}
+@enduml
+```
 
 ---
 level: 2
@@ -782,7 +789,7 @@ Challenges:
 
 We can do more:
 
-- 
+-
 
 ---
 foo: bar
