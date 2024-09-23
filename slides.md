@@ -3,7 +3,7 @@
 theme: seriph
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: https://unsplash.com/photos/mYBMP8pW4uQ/download?ixid=M3wxMjA3fDB8MXxjb2xsZWN0aW9ufDl8OTQ3MzQ1NjZ8fHx8fDJ8fDE3MjY4MDQwNDl8&force=true&w=2400
+background: https://unsplash.com/photos/8KfCR12oeUM/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTR8fGluZHVzdHJ5fGVufDB8fHx8MTcyNjg4MjA0Nnww&force=true&w=2400
 # some information about your slides (markdown enabled)
 title: LLGo Rust Ecosystem Explore
 info: |
@@ -47,6 +47,28 @@ h1 {
   -moz-text-fill-color: transparent;
 }
 </style>
+
+---
+transition: fade-out
+---
+
+# What we do?
+
+- Yisheng Chai
+  - Rust FFI Porting to LLGo
+  - Libuv FS part Porting
+  - Hyper C demo implementation
+  - LLGo net/http server part
+<br>
+<br>
+- Yingjie Zhao
+  - Libuv network part porting
+  - Rust Ecosystem Porting to LLGo
+  - LLGo net/http client part
+
+<!--
+我的工作主要包括 Rust FFI 到 LLGo 的移植，Libuv 文件系统部分移植，Hyper C demo 实现，LLGo net/http 服务器部分。
+-->
 
 ---
 transition: fade-out
@@ -106,6 +128,7 @@ h1 {
   -moz-text-fill-color: transparent;
 }
 </style>
+
 ---
 layoutClass: gap-16
 transition: slide-up
@@ -114,8 +137,6 @@ transition: slide-up
 # Overview
 
 <Toc v-click columns="2" minDepth="1" maxDepth="1"></Toc>
-
-
 
 ---
 transition: slide-up
@@ -129,12 +150,11 @@ At first, we have multiple thoughts on how to utilize Rust to enhance the LLGo e
 <br>
 
 - [ ] Binding Rust FFI to LLGo
-- [ ] Port Rust Actor Mode [Actix](https://github.com/actix/actix)
+- [ ] Port Rust Actor Model [Actix](https://github.com/actix/actix) to LLGo as async model
 - [ ] Utilize some Rust Crates as LLGo's standard library
 - [ ] Port some famous and efficient Rust framework to LLGo
 - [ ] Implement LLGo's net/http using Rust web infrastructure
 - [ ] Accelerate asynchronous I/O using io_uring.
-
 
 ---
 
@@ -147,9 +167,6 @@ Solution: Introduce Libuv asynchronous I/O library to significantly enhance conc
 - Network Functionality Gap<br>
 Challenge: Absence of comprehensive network library support<br>
 Solution: Plan to integrate Hyper library to implement functionality comparable to Go's standard net/http library
-
-
-
 
 ---
 layout: two-cols
@@ -236,7 +253,7 @@ crate-type = ["cdylib"]
 ```
 
 ```rust {*|3-4|*}
-// 2: Configure Cargo.toml
+// 2: Expose functions to C
 // Wrap Rust functions with special attributes and unsafe blocks to make them callable from C.
 #[no_mangle]
 pub unsafe extern "C" fn add_numbers_c(a: i32, b: i32) -> i32 {
@@ -480,6 +497,7 @@ static hyper_io *create_io(conn_data *conn) {
 https://github.com/hackerchai/hyper/tree/feature/server-ffi-libuv-demo/capi/examples
 ```
 ````
+
 ---
 level: 2
 ---
@@ -530,8 +548,6 @@ type ResponseWriter interface {
 }
 ```
 ````
-
-
 
 ---
 level: 2
@@ -585,18 +601,6 @@ func main() {
 </div>
 </div>
 
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
-
-
 ---
 level: 2
 ---
@@ -633,16 +637,6 @@ func main() {
 <img src="/client_run.gif" style="width: 400px; height: 380px;"/> 
 
 </div>
-
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
 
 ---
 level: 2
@@ -686,16 +680,6 @@ func main() {
 </div>
 </div>
 
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
 ---
 
 # Benchmarks
@@ -715,6 +699,7 @@ Benchmark with 6 threads and 100/1000 connections:
 | C |  67660.83 |  70277.74 | +66.6% |
 
 This benchmark shows that Golang net/http is about <span v-mark.circle.orange="1">154% faster </span> than LLGo net/http, and C implementation is about <span v-mark.circle.orange="1">66.6% faster </span> than LLGo in same condition.
+
 
 ---
 level: 2
@@ -757,7 +742,6 @@ Challenges:
 
 - **The difficulty and techniques of debugging** Debugging requires advanced skills and deep understanding. The absence of debugging tools demands even more caution.
 
-
 ---
 
 # Problems
@@ -766,7 +750,6 @@ Challenges:
 - The server is not as fast as the Go net/http in the same conditions. It still has a long way to optimize.
 - Due to lack of lightweight goroutine, the server handler can not operate stuck logic.
 - [Hyper](https://github.com/hyperium/hyper) server FFI is not merged yet. It still have some issues.
-
 
 ---
 
@@ -783,8 +766,7 @@ We can do more:
 layout: center
 class: text-center
 ---
-
-    
+  
 <style>
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -855,9 +837,6 @@ class: text-center
     </ul>
     <p class="footer">Your support and guidance made this project possible.</p>
 </div>
-
-
-
 
 --- 
 layout: center
@@ -974,7 +953,6 @@ class: text-center
 </div>
 <br>
 <br>
-
 
 ---
 layout: center
